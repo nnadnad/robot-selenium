@@ -1,6 +1,10 @@
 *** Settings ***
 Library    SeleniumLibrary
 
+*** Variables ***
+${URL}    https://opensource-demo.orangehrmlive.com/
+&{LOGINDATA}    username=Admin    password=admin123
+
 *** Test Cases ***
 TestCase
     Log    Start!
@@ -17,11 +21,11 @@ TestCase
     Log    Stop!
 
 SampeLoginTest
-    # Set Test Documentation    This is sampe login test
-    Open Browser    https://opensource-demo.orangehrmlive.com/     chrome
+    [Documentation]    Sample Login Test
+    Open Browser    ${URL}    chrome
     Set Browser Implicit Wait    3
     Maximize Browser Window
-    Input Text    id=txtUsername    Admin
+    Input Text    id=txtUsername    ${LOGINDATA}[username]
     Input Password    id=txtPassword    admin123
     Click Button    id=btnLogin
     Sleep    2s
@@ -29,3 +33,4 @@ SampeLoginTest
     Click Element    link=Logout
     Close Browser
     Log    Test completed!
+    Log    This test was executed by %{username} on %{os}
