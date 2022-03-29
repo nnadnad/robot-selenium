@@ -1,20 +1,26 @@
 *** Settings ***
 Library    SeleniumLibrary
-Suite Setup    Log    Test Suite Setup
-Suite Teardown    Log    Test Suite Teardown
-Test Setup    Log    Test Case Setup
-Test Teardown    Log    Test Case Teardown
-Default Tags    RobotTest
+Library    Collections
+Library    DateTime
+Library    OperatingSystem
+
+
+# Suite Setup    Log    Test Suite Setup
+# Suite Teardown    Log    Test Suite Teardown
+# Test Setup    Log    Test Case Setup
+# Test Teardown    Log    Test Case Teardown
+
+*** Variables ***
+${BROWSER}    chrome
+${URL}    https://opensource-demo.orangehrmlive.com/
+&{LOGINDATA}    username=Admin    password=admin123
 
 *** Keywords ***
 LoginKey
     Input Text    id=txtUsername    ${LOGINDATA}[username]
-    Input Password    id=txtPassword    admin123
+    Input Password    id=txtPassword    ${LOGINDATA}[password]
     Click Button    id=btnLogin
 
-*** Variables ***
-${URL}    https://opensource-demo.orangehrmlive.com/
-&{LOGINDATA}    username=Admin    password=admin123
 
 *** Test Cases ***
 HelloWorldTest
@@ -28,6 +34,7 @@ TestCase
     Open Browser    https://google.com    chrome
     Set Browser Implicit Wait    5
     Maximize Browser Window
+    Capture Page Screenshot    
     Input Text    name=q    robot framework testing
     Sleep    2s
     # Press Keys    name=q    ENTER
@@ -39,7 +46,7 @@ TestCase
 SampeLoginTest
     [Tags]    Positive
     [Documentation]    Sample Login Test
-    Open Browser    ${URL}    chrome
+    Open Browser    ${URL}    ${BROWSER}
     Set Browser Implicit Wait    3
     Maximize Browser Window
     LoginKey
